@@ -121,7 +121,29 @@ class HalonAPI:
 
     ## FILES ##
 
-    ## CONFIG ##
+    def read_file(self, path, size_offset=0, size_limit=1024) -> dict:
+        """Read a file from disk"""
+        params = {"path": path, "offset": size_offset, "limit": size_limit}
+        return self._request("GET", "/system/files", params=params)
+
+    def write_file(self, path, bytes) -> bool:
+        """Write a file to disk"""
+        encoded = base64.b64encode(bytes)
+        params = {"path": path}
+        payload = {"data": encoded.decode("ascii")}
+        return self._request("PUT", "/system/files", params=params, payload=payload)
+
+    def clear_file(self, path):
+        """Clear a file on disk"""
+        params = {"path": path}
+        return self._request("DELETE", "/system/files", params=params)
+
+    def get_file_size(self, path):
+        """Get the size of a file in bytes"""
+        params = {"path": path}
+        return self._request("POST", "/system/files:size", params=params)
+
+    ## REVISIONS ##
 
     def list_config_revisions(self, offset=0, limit=5) -> list:
         """List the config revisions"""
@@ -137,6 +159,8 @@ class HalonAPI:
         """Add a configuration revision. Config is a list of dicts. One dict pr. parameter. Return new configuration ID"""
         payload = {"config": config, "message": message}
         return self._request("POST", f"/config/revisions/{id}", payload=payload)["id"]
+
+    ## TESTING/LIVESTAGING ##
 
     ## EMAIL ##
 
@@ -206,3 +230,5 @@ class HalonAPI:
     def clear_graph(self, id) -> bool:
         """Clear a graph databases"""
         return self._request("DELETE", f"/graphs/{id}")
+
+    ## SCRIPTS ##
