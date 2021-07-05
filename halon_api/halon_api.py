@@ -1,6 +1,8 @@
 import requests
 from requests.models import HTTPError
 
+import json
+
 
 class HalonAPI:
     def __init__(
@@ -172,18 +174,35 @@ class HalonAPI:
 
     ## STATS ##
 
-    def get_stats(self, filter="", offset=0, limit=5) -> list:
+    def list_stats(self, filter=None, offset=0, limit=5) -> list:
         """List the stat entries"""
-        params = {filter: filter, "offset": offset, "limit": limit}
-        return self._request("GET", "/stats", params=params)
+        # filter = '{"namespace": "hsl:stat", "name": "foo", "legend": "bar"}'
+        # filter = {"namespace": "hsl:stat", "name": "foo", "legend": "bar"}
+        # filter = '{"namespace": "hsl:stat"}'
+        # filter = {"namespace": "hsl:stat"}
+        # params = {"filter": json.dumps(filter), "offset": offset, "limit": limit}
+        # params = {"filter": filter, "offset": offset, "limit": limit}
+        # return self._request("GET", "/stats", params=params)
+        raise NotImplementedError()
 
-    def clear_stats(self) -> bool:
+    def clear_stats(self, filter) -> int:
         """Clear the stat entries"""
+        # filter = {"name": "arc-result", "namespace": "hsl:stat", "legend": "none"}
+        # params = {"filter": json.dumps(filter)}
+        # return self._request("DELETE", "/stats", params=params)
         raise NotImplementedError()
 
     ## GRAPHS ##
 
-    def get_graphs(self, offset=0, limit=5) -> list:
+    def list_graphs(self, offset=0, limit=5) -> list:
         """List the graph databases"""
         params = {"offset": offset, "limit": limit}
         return self._request("GET", "/graphs", params=params)
+
+    def get_graph(self, id) -> str:
+        """Export a graph databases"""
+        return self._request("GET", f"/graphs/{id}")["data"]
+
+    def clear_graph(self, id) -> bool:
+        """Clear a graph databases"""
+        return self._request("DELETE", f"/graphs/{id}")
