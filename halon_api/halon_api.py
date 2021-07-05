@@ -138,13 +138,22 @@ class HalonAPI:
 
     ## EMAIL ##
 
-    def get_email_history(self, params) -> list:
+    def get_email_history(
+        self, filter=None, offset=0, limit=5, sortby="time2", total=False
+    ) -> dict:
         """Get emails from history"""
-        raise NotImplementedError()
+        params = {
+            "filter": filter,
+            "offset": offset,
+            "limit": limit,
+            "total": str(total).lower(),
+            "sortby": sortby,
+        }
+        return self._request("GET", "/email/history", params=params)
 
     def get_email(self, id) -> dict:
         """Get an email from history"""
-        raise NotImplementedError()
+        return self._request("GET", f"/email/history/{id}")["email"]
 
     ## REPORTING ##
 
