@@ -109,8 +109,10 @@ class HalonAPI:
 
     ## DNS ##
 
-    def clear_dns_cache(self) -> bool:
+    def clear_dns_cache(self, name, filter="") -> bool:
         """Clear the DNS cache"""
+        # params = {"filter": filter, "name": name}
+        # return self._request("DELETE", "/system/dns/cache", params=params)
         raise NotImplementedError()
 
     ## COMMANDS ##
@@ -118,6 +120,21 @@ class HalonAPI:
     ## FILES ##
 
     ## CONFIG ##
+
+    def list_config_revisions(self, offset=0, limit=5) -> list:
+        """List the config revisions"""
+        params = {"offset": offset, "limit": limit}
+        return self._request("GET", "/config/revisions", params=params)
+
+    def get_config_revision(self, id="HEAD", type=-1) -> dict:
+        """Get a single config revision. id must be a positive integer, or the string 'HEAD'"""
+        params = {"type": type}
+        return self._request("GET", f"/config/revisions/{id}", params=params)
+
+    def create_config_revision(self, id, config, message="Created through API") -> int:
+        """Add a configuration revision. Config is a list of dicts. One dict pr. parameter. Return new configuration ID"""
+        payload = {"config": config, "message": message}
+        return self._request("POST", f"/config/revisions/{id}", payload=payload)["id"]
 
     ## EMAIL ##
 
