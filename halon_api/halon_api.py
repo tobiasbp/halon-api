@@ -155,7 +155,7 @@ class HalonAPI:
         """Get an email from history"""
         return self._request("GET", f"/email/history/{id}")["email"]
 
-    ## REPORTING ##
+    ## LICENSE ##
 
     def get_license(self) -> dict:
         """Get license information for the system"""
@@ -163,11 +163,12 @@ class HalonAPI:
 
     def refresh_license(self) -> bool:
         """Refresh the license information"""
-        raise NotImplementedError()
+        return self._request("POST", "/license:refresh")
 
     def import_license_key(self, key) -> bool:
         """Import a license key (for offline use)"""
-        raise NotImplementedError()
+        payload = {"key": key}
+        return self._request("PUT", "/license/key", payload=payload)
 
     ## STATS ##
 
