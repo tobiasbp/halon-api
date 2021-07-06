@@ -1,1 +1,2 @@
 black >= 21.6b0
+pydoc-markdown >= 3.13.0
