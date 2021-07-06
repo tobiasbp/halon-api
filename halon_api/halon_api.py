@@ -197,23 +197,27 @@ class HalonAPI:
 
     ## STATS ##
 
-    def list_stats(self, filter=None, offset=0, limit=5) -> list:
+    def list_stats(
+        self, name=None, namespace=None, legend=None, offset=0, limit=5
+    ) -> list:
         """List the stat entries"""
-        # filter = '{"namespace": "hsl:stat", "name": "foo", "legend": "bar"}'
-        # filter = {"namespace": "hsl:stat", "name": "foo", "legend": "bar"}
-        # filter = '{"namespace": "hsl:stat"}'
-        # filter = {"namespace": "hsl:stat"}
-        # params = {"filter": json.dumps(filter), "offset": offset, "limit": limit}
-        # params = {"filter": filter, "offset": offset, "limit": limit}
-        # return self._request("GET", "/stats", params=params)
-        raise NotImplementedError()
+        params = {
+            "filter[name]": name,
+            "filter[namespace]": namespace,
+            "filter[legend]": legend,
+            "offset": offset,
+            "limit": limit,
+        }
+        return self._request("GET", "/stats", params=params)
 
-    def clear_stats(self, filter) -> int:
-        """Clear the stat entries"""
-        # filter = {"name": "arc-result", "namespace": "hsl:stat", "legend": "none"}
-        # params = {"filter": json.dumps(filter)}
-        # return self._request("DELETE", "/stats", params=params)
-        raise NotImplementedError()
+    def clear_stats(self, name=None, namespace=None, legend=None) -> int:
+        """Clear stat entries matched by filter. Returns number of accected stats"""
+        params = {
+            "filter[name]": name,
+            "filter[namespace]": namespace,
+            "filter[legend]": legend,
+        }
+        return self._request("DELETE", "/stats", params=params)["affected"]
 
     ## GRAPHS ##
 
