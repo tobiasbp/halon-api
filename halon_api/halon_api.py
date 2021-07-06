@@ -5,12 +5,12 @@ from requests.models import HTTPError
 class HalonAPI:
     def __init__(
         self,
-        url,
-        user,
-        password,
-        version="5.6.0",
-        cert=None,
-        verify_cert=True,
+        url: str,
+        user: str,
+        password: str,
+        version: str = "5.6.0",
+        cert: str = None,
+        verify_cert: bool = True,
     ) -> None:
         self.base_url = f"{url}/api/{version}"
         self.auth = requests.auth.HTTPBasicAuth(user, password)
@@ -27,7 +27,7 @@ class HalonAPI:
             )
 
     def _request(self, method, path, payload={}, params={}) -> dict:
-        """Perform a get request"""
+        """Perform a get request."""
 
         try:
             r = requests.request(
@@ -56,36 +56,40 @@ class HalonAPI:
     ## HARDWARE ##
 
     def reboot_system(self) -> bool:
-        """Reboot the system"""
+        """Reboot the system."""
         return self._request("POST", "/system:reboot")
 
     def shut_down_system(self) -> bool:
-        """Shut down the system"""
+        """Shut down the system."""
         return self._request("POST", "/system:shutdown")
 
     ## TIME ##
 
     def get_system_time(self) -> str:
-        """Get the current system time"""
+        """Get the current system time as string in format 'YYYY-MM-DDTHH:MM:SSZ'."""
         return self._request("GET", "/system/time")["time"]
 
     def set_system_time(self, time: str) -> bool:
-        """Set the system time"""
+        """Set the system time
+
+        Arguments:
+        time -- Time in format 'YYYY-MM-DDTHH:MM:SSZ'
+        """
         payload = {"time": time}
         return self._request("PUT", "/system/time", payload=payload)
 
     def get_system_uptime(self) -> int:
-        """Get the current system uptime in seconds"""
+        """Get the current system uptime in seconds."""
         return self._request("GET", "/system/uptime")["uptime"]
 
     ## UPDATE ##
 
     def get_software_version(self) -> str:
-        """Get the current Halon version"""
+        """Get the current Halon version."""
         return self._request("GET", "/system/versions/current")["version"]
 
     def get_latest_software_version(self) -> list:
-        """Get the latest Halon version"""
+        """Get the latest Halon versions. This includes the current version"""
         return self._request("GET", "/system/versions/latest")
 
     def get_update_status(self) -> dict:
@@ -102,15 +106,19 @@ class HalonAPI:
         return self._request("POST", "/system/update:download", payload=payload)
 
     def install_update(self, version: str) -> bool:
-        """Install an update"""
+        """Install an update. If on system, it will be downloaded."""
         payload = {"version": version}
         return self._request("POST", "/system/update:install", payload=payload)
 
     ## DNS ##
 
-    def clear_dns_cache(self, name: str) -> bool:
-        """Clear the DNS cache"""
-        params = {"filter[name]": name}
+    def clear_dns_cache(self, filter: str) -> bool:
+        """Clear the DNS cache
+
+        Arguments:
+        filter -- A filter matching the DNS records to clear
+        """
+        params = {"filter[name]": filter}
         return self._request("DELETE", "/system/dns/cache", params=params)
 
     ## COMMANDS ##
@@ -144,12 +152,22 @@ class HalonAPI:
     ## REVISIONS ##
 
     def list_config_revisions(self, offset: int = 0, limit: int = 5) -> list:
-        """List the config revisions"""
+        """List the config revisions.
+
+        Arguments:
+        offset -- The offset, in pages, to use (>= 0).
+        limit -- Maximum number of items to return (1 .. 10000).
+        """
         params = {"offset": offset, "limit": limit}
         return self._request("GET", "/config/revisions", params=params)
 
-    def get_config_revision(self, id: str = "HEAD", type: int = -1) -> dict:
-        """Get a single config revision. id must be a positive integer, or the string 'HEAD'"""
+    def get_config_revision(self, id: str = "HEAD", type: int = None) -> dict:
+        """Get a single config revision.
+
+        Arguments:
+        id -- A positive integer or the string 'HEAD'
+        type -- The config type. Can only be used with HEAD or a test config (-1 .. 5).
+        """
         params = {"type": type}
         return self._request("GET", f"/config/revisions/{id}", params=params)
 
