@@ -1,3 +1,4 @@
+import base64
 import requests
 from requests.models import HTTPError
 
