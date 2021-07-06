@@ -1,9 +1,9 @@
 # halon-api
-A Python wrapper for the [API](https://docs.halon.io/api) for Mail Transport Agent Halon.
-Please read it for complete documentation on function arguments and the data returned by
-the API.
+A Python wrapper for the API for Mail Transport Agent Halon.
+Please read [the original documentation](https://docs.halon.io/api) for
+complete in depth documentation on function arguments and the data returned by the API.
 
-The wrapper is available as a [PyPI package](https://pypi.org/project/halon-api/).
+The wrapper is available as a PyPI package [_halon-api_](https://pypi.org/project/halon-api/).
 
 # Install
 Install the PyPI package using _pip_: `pip install halon-api`
