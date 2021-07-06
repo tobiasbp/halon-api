@@ -185,7 +185,7 @@ class HalonAPI:
         self, config: list, id: str = None, conditions: dict = None
     ) -> bool:
         """Start a new configuration test"""
-        payload = {"config": config, "id": id, "conditions": conditions}
+        # payload = {"config": config, "id": id, "conditions": conditions}
         raise NotImplementedError()
 
     def get_config_test_status(self) -> dict:
@@ -194,7 +194,7 @@ class HalonAPI:
 
     def get_test_config(self, id: str, type: int = None) -> dict:
         """Get the test configuration"""
-        params = {"type": type}
+        # params = {"type": type}
         raise NotImplementedError()
 
     def cancel_config_test(self, id: str) -> bool:
