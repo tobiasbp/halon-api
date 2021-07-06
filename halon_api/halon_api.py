@@ -1,8 +1,6 @@
 import requests
 from requests.models import HTTPError
 
-import json
-
 
 class HalonAPI:
     def __init__(
@@ -160,9 +158,35 @@ class HalonAPI:
 
     ## TESTING/LIVESTAGING ##
 
+    def start_config_test(self, config, id=None, conditions=None) -> bool:
+        """Start a new configuration test"""
+        payload = {"config": config, "id": id, "conditions": conditions}
+        raise NotImplementedError()
+
+    def get_config_test_status(self) -> dict:
+        """Get the status of the running config test"""
+        raise NotImplementedError()
+
+    def get_config_test(self, id, type=None) -> dict:
+        """Get the test configuration"""
+        params = {"type": type}
+        raise NotImplementedError()
+
+    def cancel_config_test(self, id) -> bool:
+        """Cancel the running configuration test"""
+        raise NotImplementedError()
+
+    def debug_config_test(self, id) -> dict:
+        """Debug the running config test"""
+        raise NotImplementedError()
+
+    def check_config(self, config) -> bool:
+        """Check a configuration for errors"""
+        raise NotImplementedError()
+
     ## EMAIL ##
 
-    def get_email_history(
+    def list_email_history(
         self, filter=None, offset=0, limit=5, sortby="time2", total=False
     ) -> dict:
         """Get emails from history"""
@@ -234,3 +258,15 @@ class HalonAPI:
         return self._request("DELETE", f"/graphs/{id}")
 
     ## SCRIPTS ##
+
+    def check_hsl_script(self, script, config, type, compat="") -> list:
+        raise NotImplementedError()
+
+    def run_hsl_script(self, script, config, preamble="", postamble="") -> str:
+        raise NotImplementedError()
+
+    def debug_hsl_script(self, id) -> dict:
+        raise NotImplementedError()
+
+    def get_hsl_include_graph(self, script, config, type) -> dict:
+        raise NotImplementedError()
