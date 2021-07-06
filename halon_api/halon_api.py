@@ -110,11 +110,10 @@ class HalonAPI:
 
     ## DNS ##
 
-    def clear_dns_cache(self, name, filter="") -> bool:
+    def clear_dns_cache(self, name) -> bool:
         """Clear the DNS cache"""
-        # params = {"filter": filter, "name": name}
-        # return self._request("DELETE", "/system/dns/cache", params=params)
-        raise NotImplementedError()
+        params = {"filter[name]": name}
+        return self._request("DELETE", "/system/dns/cache", params=params)
 
     ## COMMANDS ##
 
