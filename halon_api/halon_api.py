@@ -175,7 +175,8 @@ class HalonAPI:
     def create_config_revision(
         self, id: str, config: list, message: str = "Created through API"
     ) -> int:
-        """Add a configuration revision. Config is a list of dicts. One dict pr. parameter. Return new configuration ID"""
+        """Add a configuration revision. Config is a list of dicts.
+        One dict pr. parameter. Return new configuration ID"""
         payload = {"config": config, "message": message}
         return self._request("POST", f"/config/revisions/{id}", payload=payload)["id"]
 
@@ -302,7 +303,11 @@ class HalonAPI:
         raise NotImplementedError()
 
     def run_hsl_script(
-        self, script: str, config: list, preamble: str = None, postamble: str = None
+        self,
+        script: str,
+        config: list,
+        preamble: str = None,
+        postamble: str = None,
     ) -> str:
         raise NotImplementedError()
 
