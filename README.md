@@ -14,3 +14,6 @@ How to set up development environment.
 * Install required packages: `pip install requirements.txt`
 * Install required packages for development: `pip install requirements-dev.txt`
 * Install _pre-commit_ git hook scripts: `pre-commit install`
+
+# Build pypi package
+In project root dir: `python -m build`
