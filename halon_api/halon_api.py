@@ -69,13 +69,12 @@ class HalonAPI:
 
     def get_system_time(self) -> str:
         """Get the current system time"""
-        # FIXME: Return datetime object
         return self._request("GET", "/system/time")["time"]
 
     def set_system_time(self, time) -> bool:
-        """Set the system time from a datetime object"""
-        # datetime
-        raise NotImplementedError()
+        """Set the system time"""
+        payload = {"time": time}
+        return self._request("PUT", "/system/time", payload=payload)
 
     def get_system_uptime(self) -> int:
         """Get the current system uptime in seconds"""
