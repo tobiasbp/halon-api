@@ -69,7 +69,7 @@ class HalonAPI:
         """Get the current system time"""
         return self._request("GET", "/system/time")["time"]
 
-    def set_system_time(self, time) -> bool:
+    def set_system_time(self, time: str) -> bool:
         """Set the system time"""
         payload = {"time": time}
         return self._request("PUT", "/system/time", payload=payload)
@@ -96,19 +96,19 @@ class HalonAPI:
         """Cancel a pending update"""
         return self._request("DELETE", "/system/update")
 
-    def download_update(self, version) -> bool:
+    def download_update(self, version: str) -> bool:
         """Begin downloading (prefetching) an update"""
         payload = {"version": version}
         return self._request("POST", "/system/update:download", payload=payload)
 
-    def install_update(self, version) -> bool:
+    def install_update(self, version: str) -> bool:
         """Install an update"""
         payload = {"version": version}
         return self._request("POST", "/system/update:install", payload=payload)
 
     ## DNS ##
 
-    def clear_dns_cache(self, name) -> bool:
+    def clear_dns_cache(self, name: str) -> bool:
         """Clear the DNS cache"""
         params = {"filter[name]": name}
         return self._request("DELETE", "/system/dns/cache", params=params)
@@ -117,48 +117,54 @@ class HalonAPI:
 
     ## FILES ##
 
-    def read_file(self, path, size_offset=0, size_limit=1024) -> dict:
+    def read_file(
+        self, path: str, size_offset: int = 0, size_limit: int = 1024
+    ) -> dict:
         """Read a file from disk"""
         params = {"path": path, "offset": size_offset, "limit": size_limit}
         return self._request("GET", "/system/files", params=params)
 
-    def write_file(self, path, bytes) -> bool:
+    def write_file(self, path: str, data: bytes) -> bool:
         """Write a file to disk"""
-        encoded = base64.b64encode(bytes)
+        encoded = base64.b64encode(data)
         params = {"path": path}
         payload = {"data": encoded.decode("ascii")}
         return self._request("PUT", "/system/files", params=params, payload=payload)
 
-    def clear_file(self, path):
+    def clear_file(self, path: str):
         """Clear a file on disk"""
         params = {"path": path}
         return self._request("DELETE", "/system/files", params=params)
 
-    def get_file_size(self, path):
+    def get_file_size(self, path: str):
         """Get the size of a file in bytes"""
         params = {"path": path}
         return self._request("POST", "/system/files:size", params=params)
 
     ## REVISIONS ##
 
-    def list_config_revisions(self, offset=0, limit=5) -> list:
+    def list_config_revisions(self, offset: int = 0, limit: int = 5) -> list:
         """List the config revisions"""
         params = {"offset": offset, "limit": limit}
         return self._request("GET", "/config/revisions", params=params)
 
-    def get_config_revision(self, id="HEAD", type=-1) -> dict:
+    def get_config_revision(self, id: str = "HEAD", type: int = -1) -> dict:
         """Get a single config revision. id must be a positive integer, or the string 'HEAD'"""
         params = {"type": type}
         return self._request("GET", f"/config/revisions/{id}", params=params)
 
-    def create_config_revision(self, id, config, message="Created through API") -> int:
+    def create_config_revision(
+        self, id: str, config: list, message: str = "Created through API"
+    ) -> int:
         """Add a configuration revision. Config is a list of dicts. One dict pr. parameter. Return new configuration ID"""
         payload = {"config": config, "message": message}
         return self._request("POST", f"/config/revisions/{id}", payload=payload)["id"]
 
     ## TESTING/LIVESTAGING ##
 
-    def start_config_test(self, config, id=None, conditions=None) -> bool:
+    def start_config_test(
+        self, config: list, id: str = None, conditions: dict = None
+    ) -> bool:
         """Start a new configuration test"""
         payload = {"config": config, "id": id, "conditions": conditions}
         raise NotImplementedError()
@@ -167,27 +173,32 @@ class HalonAPI:
         """Get the status of the running config test"""
         raise NotImplementedError()
 
-    def get_config_test(self, id, type=None) -> dict:
+    def get_test_config(self, id: str, type: int = None) -> dict:
         """Get the test configuration"""
         params = {"type": type}
         raise NotImplementedError()
 
-    def cancel_config_test(self, id) -> bool:
+    def cancel_config_test(self, id: str) -> bool:
         """Cancel the running configuration test"""
         raise NotImplementedError()
 
-    def debug_config_test(self, id) -> dict:
+    def debug_config_test(self, id: str) -> dict:
         """Debug the running config test"""
         raise NotImplementedError()
 
-    def check_config(self, config) -> bool:
+    def check_config(self, config: list) -> bool:
         """Check a configuration for errors"""
         raise NotImplementedError()
 
     ## EMAIL ##
 
     def list_email_history(
-        self, filter=None, offset=0, limit=5, sortby="time2", total=False
+        self,
+        filter: str = None,
+        offset: int = 0,
+        limit: int = 5,
+        sortby: str = None,
+        total: bool = False,
     ) -> dict:
         """Get emails from history"""
         params = {
@@ -199,7 +210,7 @@ class HalonAPI:
         }
         return self._request("GET", "/email/history", params=params)
 
-    def get_email(self, id) -> dict:
+    def get_email(self, id: int) -> dict:
         """Get an email from history"""
         return self._request("GET", f"/email/history/{id}")["email"]
 
@@ -213,7 +224,7 @@ class HalonAPI:
         """Refresh the license information"""
         return self._request("POST", "/license:refresh")
 
-    def import_license_key(self, key) -> bool:
+    def import_license_key(self, key: str) -> bool:
         """Import a license key (for offline use)"""
         payload = {"key": key}
         return self._request("PUT", "/license/key", payload=payload)
@@ -221,7 +232,12 @@ class HalonAPI:
     ## STATS ##
 
     def list_stats(
-        self, name=None, namespace=None, legend=None, offset=0, limit=5
+        self,
+        name: str = None,
+        namespace: str = None,
+        legend: str = None,
+        offset: int = 0,
+        limit: int = 5,
     ) -> list:
         """List the stat entries"""
         params = {
@@ -233,7 +249,9 @@ class HalonAPI:
         }
         return self._request("GET", "/stats", params=params)
 
-    def clear_stats(self, name=None, namespace=None, legend=None) -> int:
+    def clear_stats(
+        self, name: str = None, namespace: str = None, legend: str = None
+    ) -> int:
         """Clear stat entries matched by filter. Returns number of accected stats"""
         params = {
             "filter[name]": name,
@@ -244,29 +262,33 @@ class HalonAPI:
 
     ## GRAPHS ##
 
-    def list_graphs(self, offset=0, limit=5) -> list:
+    def list_graphs(self, offset: str = 0, limit: str = 5) -> list:
         """List the graph databases"""
         params = {"offset": offset, "limit": limit}
         return self._request("GET", "/graphs", params=params)
 
-    def get_graph(self, id) -> str:
+    def export_graph(self, id: str) -> str:
         """Export a graph databases"""
         return self._request("GET", f"/graphs/{id}")["data"]
 
-    def clear_graph(self, id) -> bool:
+    def clear_graph(self, id: str) -> bool:
         """Clear a graph databases"""
         return self._request("DELETE", f"/graphs/{id}")
 
     ## SCRIPTS ##
 
-    def check_hsl_script(self, script, config, type, compat="") -> list:
+    def check_hsl_script(
+        self, script: str, config: list, type: str, compat: int = None
+    ) -> list:
         raise NotImplementedError()
 
-    def run_hsl_script(self, script, config, preamble="", postamble="") -> str:
+    def run_hsl_script(
+        self, script: str, config: list, preamble: str = None, postamble: str = None
+    ) -> str:
         raise NotImplementedError()
 
-    def debug_hsl_script(self, id) -> dict:
+    def debug_hsl_script(self, id: str) -> dict:
         raise NotImplementedError()
 
-    def get_hsl_include_graph(self, script, config, type) -> dict:
+    def get_hsl_include_graph(self, script: str, config: list, type: str) -> dict:
         raise NotImplementedError()
