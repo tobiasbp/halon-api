@@ -1,4 +1,5 @@
-name: Python package
+# https://docs.github.com/en/actions/guides/building-and-testing-python
+name: Testing
 
 on: [push]
 
