@@ -59,11 +59,11 @@ class HalonAPI:
 
     def reboot_system(self) -> bool:
         """Reboot the system"""
-        raise NotImplementedError()
+        return self._request("POST", "/system:reboot")
 
     def shut_down_system(self) -> bool:
         """Shut down the system"""
-        raise NotImplementedError()
+        return self._request("POST", "/system:shutdown")
 
     ## TIME ##
 
