@@ -54,7 +54,7 @@ class HalonAPI:
 
         return r.json()
 
-    ## HARDWARE ##
+    """ HARDWARE """
 
     def reboot_system(self) -> bool:
         """Reboot the system."""
@@ -64,7 +64,7 @@ class HalonAPI:
         """Shut down the system."""
         return self._request("POST", "/system:shutdown")
 
-    ## TIME ##
+    """ TIME """
 
     def get_system_time(self) -> str:
         """Get the current system time as string in format 'YYYY-MM-DDTHH:MM:SSZ'."""
@@ -83,7 +83,7 @@ class HalonAPI:
         """Get the current system uptime in seconds."""
         return self._request("GET", "/system/uptime")["uptime"]
 
-    ## UPDATE ##
+    """ UPDATE """
 
     def get_software_version(self) -> str:
         """Get the current Halon version."""
@@ -111,7 +111,7 @@ class HalonAPI:
         payload = {"version": version}
         return self._request("POST", "/system/update:install", payload=payload)
 
-    ## DNS ##
+    """ DNS """
 
     def clear_dns_cache(self, filter: str) -> bool:
         """Clear the DNS cache
@@ -122,9 +122,9 @@ class HalonAPI:
         params = {"filter[name]": filter}
         return self._request("DELETE", "/system/dns/cache", params=params)
 
-    ## COMMANDS ##
+    """ COMMANDS """
 
-    ## FILES ##
+    """ FILES """
 
     def read_file(
         self, path: str, size_offset: int = 0, size_limit: int = 1024
@@ -150,7 +150,7 @@ class HalonAPI:
         params = {"path": path}
         return self._request("POST", "/system/files:size", params=params)
 
-    ## REVISIONS ##
+    """ REVISIONS """
 
     def list_config_revisions(self, offset: int = 0, limit: int = 5) -> list:
         """List the config revisions.
@@ -179,7 +179,7 @@ class HalonAPI:
         payload = {"config": config, "message": message}
         return self._request("POST", f"/config/revisions/{id}", payload=payload)["id"]
 
-    ## TESTING/LIVESTAGING ##
+    """ TESTING/LIVESTAGING """
 
     def start_config_test(
         self, config: list, id: str = None, conditions: dict = None
@@ -209,7 +209,7 @@ class HalonAPI:
         """Check a configuration for errors"""
         raise NotImplementedError()
 
-    ## EMAIL ##
+    """ EMAIL """
 
     def list_email_history(
         self,
@@ -233,7 +233,7 @@ class HalonAPI:
         """Get an email from history"""
         return self._request("GET", f"/email/history/{id}")["email"]
 
-    ## LICENSE ##
+    """ LICENSE """
 
     def get_license(self) -> dict:
         """Get license information for the system"""
@@ -248,7 +248,7 @@ class HalonAPI:
         payload = {"key": key}
         return self._request("PUT", "/license/key", payload=payload)
 
-    ## STATS ##
+    """ STATS """
 
     def list_stats(
         self,
@@ -279,7 +279,7 @@ class HalonAPI:
         }
         return self._request("DELETE", "/stats", params=params)["affected"]
 
-    ## GRAPHS ##
+    """ GRAPHS """
 
     def list_graphs(self, offset: str = 0, limit: str = 5) -> list:
         """List the graph databases"""
@@ -294,7 +294,7 @@ class HalonAPI:
         """Clear a graph databases"""
         return self._request("DELETE", f"/graphs/{id}")
 
-    ## SCRIPTS ##
+    """ SCRIPTS """
 
     def check_hsl_script(
         self, script: str, config: list, type: str, compat: int = None
