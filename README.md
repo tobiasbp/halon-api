@@ -3,8 +3,24 @@ A Python wrapper for the [API](https://docs.halon.io/api) for Mail Transport Age
 Please read it for complete documentation on function arguments and the data returned by
 the API.
 
+The wrapper is available as a [PyPI package](https://pypi.org/project/halon-api/).
+
 # Install
-How to install
+Install the PyPI package using _pip_: `pip install halon-api`
+
+# How to use
+
+```
+from halon_api import HalonAPI
+
+h = HalonAPI(
+    "https://halon.example.com",
+    "halon-user",
+    "secret-password",
+)
+
+print("Halon software version:", h.get_software_version())
+```
 
 # Development
 How to set up development environment.
@@ -15,5 +31,5 @@ How to set up development environment.
 * Install required packages for development: `pip install requirements-dev.txt`
 * Install _pre-commit_ git hook scripts: `pre-commit install`
 
-# Build pypi package
-In project root dir: `python -m build`
+# Build the PyPI package
+In the project root dir: `python -m build`
