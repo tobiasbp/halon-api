@@ -1,6 +1,5 @@
 import base64
 import requests
-from requests.models import HTTPError
 
 
 class HalonAPI:
@@ -30,23 +29,18 @@ class HalonAPI:
     def _request(self, method, path, payload={}, params={}) -> dict:
         """Perform a get request."""
 
-        try:
-            r = requests.request(
-                method=method,
-                url=self.base_url + path,
-                auth=self.auth,
-                json=payload,
-                params=params,
-                headers=self.headers,
-                verify=self.verify_cert,
-            )
+        r = requests.request(
+            method=method,
+            url=self.base_url + path,
+            auth=self.auth,
+            json=payload,
+            params=params,
+            headers=self.headers,
+            verify=self.verify_cert,
+        )
 
-            # Raise exception on HTTP error codes
-            r.raise_for_status()
-
-        except HTTPError as e:
-            m = r.json().get("message")
-            raise ValueError(f"{e}: {m}")
+        # Raise exception on HTTP error codes
+        r.raise_for_status()
 
         # Return True on "no content" response
         if r.status_code == 204:
