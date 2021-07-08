@@ -12,13 +12,17 @@ class HalonAPI:
         secure: bool = True,
         cert: str = None,
         verify_cert: bool = True,
+        port: int = None,
     ) -> None:
         if secure:
             p = "https"
         else:
             p = "http"
 
-        self.base_url = f"{p}://{host}/api/{version}"
+        if port:
+            port = f":{port}"
+
+        self.base_url = f"{p}://{host}{port}/api/{version}"
         self.auth = requests.auth.HTTPBasicAuth(user, password)
         self.cert = cert
         self.verify_cert = verify_cert
