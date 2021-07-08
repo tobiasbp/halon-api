@@ -16,7 +16,7 @@ Install the PyPI package using _pip_: `pip install halon-api`
 from halon_api import HalonAPI
 
 h = HalonAPI(
-    "https://halon.example.com",
+    "halon.example.com",
     "halon-user",
     "secret-password",
 )
@@ -30,6 +30,7 @@ How to set up development environment.
 ## Setup virtual environment
 * Make virtual python environment: `python -m venv .venv`
 * Activate environment: `source .venv/bin/activate`
+* Deactivate virtual environment (When done): `deactivate`
 
 ## Install software
 * Install required packages: `pip install requirements.txt`

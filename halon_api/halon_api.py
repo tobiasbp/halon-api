@@ -5,14 +5,20 @@ import requests
 class HalonAPI:
     def __init__(
         self,
-        url: str,
+        host: str,
         user: str,
         password: str,
         version: str = "5.6.0",
+        secure: bool = True,
         cert: str = None,
         verify_cert: bool = True,
     ) -> None:
-        self.base_url = f"{url}/api/{version}"
+        if secure:
+            p = "https"
+        else:
+            p = "http"
+
+        self.base_url = f"{p}://{host}/api/{version}"
         self.auth = requests.auth.HTTPBasicAuth(user, password)
         self.cert = cert
         self.verify_cert = verify_cert
