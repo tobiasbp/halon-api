@@ -8,6 +8,26 @@
 class HalonAPI()
 ```
 
+<a name="halon_api.HalonAPI.__init__"></a>
+#### `__init__`
+
+```python
+ | HalonAPI.__init__(host: str, user: str, password: str, version: str = "5.6.0", secure: bool = True, cert: str = None, verify_cert: bool = True, port: int = None) -> None
+```
+
+Initialize a HalonAPI object.
+
+**Arguments**:
+
+- `host` - The fqdn of the Halon server
+- `user` - The user to access Halon as
+- `password` - The password for the Halon user
+- `version` - The version of the Halon API to use
+- `secure` - Control the use of HTTPS
+- `cert` - Certificate to trust (Not implemented)
+- `verify_cert` - Verify certificate on host
+- `port` - The port to use. Will override 443 for https and 80 for http
+
 <a name="halon_api.HalonAPI.reboot_system"></a>
 #### `reboot_system`
 

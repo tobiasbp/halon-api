@@ -14,6 +14,18 @@ class HalonAPI:
         verify_cert: bool = True,
         port: int = None,
     ) -> None:
+        """Initialize a HalonAPI object.
+
+        Arguments:
+        host -- The fqdn of the Halon server
+        user -- The user to access Halon as
+        password -- The password for the Halon user
+        version -- The version of the Halon API to use
+        secure -- Control the use of HTTPS
+        cert -- Certificate to trust (Not implemented)
+        verify_cert: Verify certificate on host
+        port: The port to use. Will override 443 for https and 80 for http
+        """
         if secure:
             p = "https"
         else:
@@ -21,6 +33,8 @@ class HalonAPI:
 
         if port:
             port = f":{port}"
+        else:
+            port = ""
 
         self.base_url = f"{p}://{host}{port}/api/{version}"
         self.auth = requests.auth.HTTPBasicAuth(user, password)
@@ -51,6 +65,8 @@ class HalonAPI:
 
         # Raise exception on HTTP error codes
         r.raise_for_status()
+
+        # Can I catch HTTPError and raise it again with the Halon message?
 
         # Return True on "no content" response
         if r.status_code == 204:
