@@ -1,5 +1,6 @@
 import base64
 import requests
+from requests.models import HTTPError
 
 
 class HalonAPI:
@@ -53,20 +54,24 @@ class HalonAPI:
     def _request(self, method, path, payload={}, params={}) -> dict:
         """Perform a get request."""
 
-        r = requests.request(
-            method=method,
-            url=self.base_url + path,
-            auth=self.auth,
-            json=payload,
-            params=params,
-            headers=self.headers,
-            verify=self.verify_cert,
-        )
+        try:
+            r = requests.request(
+                method=method,
+                url=self.base_url + path,
+                auth=self.auth,
+                json=payload,
+                params=params,
+                headers=self.headers,
+                verify=self.verify_cert,
+            )
 
-        # Raise exception on HTTP error codes
-        r.raise_for_status()
+            # Raise exception on HTTP error codes
+            r.raise_for_status()
 
-        # Can I catch HTTPError and raise it again with the Halon message?
+        except HTTPError as e:
+            # Re-raise exception with Halon error messsage
+            j = r.json()
+            raise HTTPError(j.get("message")) from e
 
         # Return True on "no content" response
         if r.status_code == 204:
