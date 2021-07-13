@@ -1,6 +1,7 @@
 # halon-api
-A Python wrapper for the API for Mail Transport Agent Halon.
-The functions in the wrapper are described in [doc/functions.md](./doc/functions.md).
+A Python wrapper for the API for Mail Transport Agent Halon build with the [requests](https://docs.python-requests.org/) library.
+The functions in the wrapper are described in [doc/functions.md](./doc/functions.md)
+in the project repository.
 
 Please read [the original documentation](https://docs.halon.io/api) for
 complete in depth documentation on function arguments and the data returned by the API.
@@ -23,6 +24,11 @@ h = HalonAPI(
 
 print("Halon software version:", h.get_software_version())
 ```
+
+If you want to use your own CA (certificate authority), you can set the environment
+variable `REQUESTS_CA_BUNDLE` to hold the path to a CA_BUNDLE. You can also pass
+the pass the path to the `HalonAPI` object with the argument `verify`.
+Read more in the [requests documentation](https://2.python-requests.org/en/master/user/advanced/#ssl-cert-verification).
 
 # Development
 How to set up development environment.

@@ -12,7 +12,7 @@ class HalonAPI()
 #### `__init__`
 
 ```python
- | HalonAPI.__init__(host: str, user: str, password: str, version: str = "5.6.0", secure: bool = True, cert: str = None, verify_cert: bool = True, port: int = None) -> None
+ | HalonAPI.__init__(host: str, user: str, password: str, version: str = "5.6.0", secure: bool = True, verify: bool = True, port: int = None) -> None
 ```
 
 Initialize a HalonAPI object.
@@ -24,8 +24,7 @@ Initialize a HalonAPI object.
 - `password` - The password for the Halon user
 - `version` - The version of the Halon API to use
 - `secure` - Control the use of HTTPS
-- `cert` - Certificate to trust (Not implemented)
-- `verify_cert` - Verify certificate on host
+- `verify` - Verify certificate on host (Bool) or full chain CA_BUNDLE .pem file
 - `port` - The port to use. Will override 443 for https and 80 for http
 
 <a name="halon_api.HalonAPI.reboot_system"></a>
