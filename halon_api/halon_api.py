@@ -11,8 +11,7 @@ class HalonAPI:
         password: str,
         version: str = "5.6.0",
         secure: bool = True,
-        cert: str = None,
-        verify_cert: bool = True,
+        verify: bool = True,
         port: int = None,
     ) -> None:
         """Initialize a HalonAPI object.
@@ -23,8 +22,7 @@ class HalonAPI:
         password -- The password for the Halon user
         version -- The version of the Halon API to use
         secure -- Control the use of HTTPS
-        cert -- Certificate to trust (Not implemented)
-        verify_cert: Verify certificate on host
+        verify: Verify certificate on host (Bool) or full chain CA_BUNDLE .pem file
         port: The port to use. Will override 443 for https and 80 for http
         """
         if secure:
@@ -39,14 +37,13 @@ class HalonAPI:
 
         self.base_url = f"{p}://{host}{port}/api/{version}"
         self.auth = requests.auth.HTTPBasicAuth(user, password)
-        self.cert = cert
-        self.verify_cert = verify_cert
+        self.verify = verify
         # The session to use for all requests (HTTP pooling)
         # self.session = requests.Session()
-        self.headers = {}
+        # self.headers = {}
 
         # Don't warn about cert not being verified if user disabled verification
-        if not verify_cert:
+        if not verify:
             requests.urllib3.disable_warnings(
                 requests.urllib3.exceptions.InsecureRequestWarning
             )
@@ -61,8 +58,8 @@ class HalonAPI:
                 auth=self.auth,
                 json=payload,
                 params=params,
-                headers=self.headers,
-                verify=self.verify_cert,
+                # headers=self.headers,
+                verify=self.verify,
             )
 
             # Raise exception on HTTP error codes
