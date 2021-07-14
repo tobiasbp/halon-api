@@ -3,7 +3,7 @@ A Python wrapper for the API for Mail Transport Agent Halon build with the [requ
 The functions in the wrapper are described in [doc/functions.md](./doc/functions.md)
 in the project repository.
 
-Please read [the original documentation](https://docs.halon.io/api) for
+Please read the original [Halon documentation](https://docs.halon.io/api) for
 complete in depth documentation on function arguments and the data returned by the API.
 
 The wrapper is available as a PyPI package [_halon-api_](https://pypi.org/project/halon-api/).
