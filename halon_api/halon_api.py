@@ -111,7 +111,7 @@ class HalonAPI:
         """Get the current Halon version."""
         return self._request("GET", "/system/versions/current")["version"]
 
-    def get_latest_software_version(self) -> list:
+    def list_latest_software_versions(self) -> list:
         """Get the latest Halon versions. This includes the current version"""
         return self._request("GET", "/system/versions/latest")
 
