@@ -85,11 +85,11 @@ Get the current system uptime in seconds.
 
 Get the current Halon version.
 
-<a name="halon_api.HalonAPI.get_latest_software_version"></a>
-#### `get_latest_software_version`
+<a name="halon_api.HalonAPI.list_latest_software_versions"></a>
+#### `list_latest_software_versions`
 
 ```python
- | HalonAPI.get_latest_software_version() -> list
+ | HalonAPI.list_latest_software_versions() -> list
 ```
 
 Get the latest Halon versions. This includes the current version
